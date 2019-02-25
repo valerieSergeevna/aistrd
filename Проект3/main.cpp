@@ -1,6 +1,6 @@
-#include "List.h"
+#include "List.cpp"
 #include "conio.h"
-#include <iostream>
+//#include <iostream>
 #include <exception>
 
 void main()
@@ -16,8 +16,8 @@ void main()
 		list.push_front(2);
 		list.push_front(8);
 
-		list.pop_front();
-
+		//list.pop_back();
+		//list.isEmpty();
 		list.insert(256, 4);
 		std::cout << "первый список: ";
 		std::cout << list;
