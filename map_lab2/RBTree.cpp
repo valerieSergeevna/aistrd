@@ -25,7 +25,7 @@ void RBTree<T>::reset_list()
 }
 
 template <typename T>
-RBTree<T>::node* RBTree<T>::get_ancle(node *cur) {
+typename RBTree<T>::node* RBTree<T>::get_ancle(node *cur) {
 	node *granny = grandparent(cur);
 	if (granny == nullptr)
 		return nullptr; // No grandparent means no uncle
@@ -36,7 +36,7 @@ RBTree<T>::node* RBTree<T>::get_ancle(node *cur) {
 }
 
 template <typename T>
-RBTree<T>::node* RBTree<T>::get_grandparent(node *cur) {
+typename RBTree<T>::node* RBTree<T>::get_grandparent(node *cur) {
 	if ((cur != nullptr) && (cur->parent != nullptr))
 		return cur->parent->parent;
 	else
@@ -44,7 +44,7 @@ RBTree<T>::node* RBTree<T>::get_grandparent(node *cur) {
 }
 
 template<typename T>
-RBTree<T>::node* RBTree<T>::rotate_right(node *cur)
+void RBTree<T>::rotate_right(node *cur)
 {
 	node *pivot = cur->left;
 
@@ -65,7 +65,7 @@ RBTree<T>::node* RBTree<T>::rotate_right(node *cur)
 }
 
 template<typename T>
-RBTree<T>::node * RBTree<T>::rotate_left(node *)
+void  RBTree<T>::rotate_left(node *cur)
 {
 	struct node *pivot = cur->right;
 

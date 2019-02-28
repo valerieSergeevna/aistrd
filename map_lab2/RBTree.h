@@ -43,8 +43,8 @@ public:
 	int bfactor();
 	node *get_ancle(node*);
 	node* get_grandparent(node *);
-	node* rotate_right(node*);
-	node* rotate_left(node*);
+	void rotate_right(node*);
+	void rotate_left(node*);
 	void blance_set_color(node *);
 	void insert_case1(node *);
 	void insert_case2(node *);
