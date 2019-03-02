@@ -297,52 +297,11 @@ namespace UnitTest1
 		}
 
 
-		/*TEST_METHOD(TestMethod_push_front_list)
-		{
-			int check_array[6] = { 40, 10, 50, 4, 1, 5 };
-
-			List <int>list;
-			list.push_back(4);
-			list.push_back(1);
-			list.push_back(5);
-
-			List <int>list2;
-			list2.push_back(40);
-			list2.push_back(10);
-			list2.push_back(50);
-			list2.get_back();
-
-			list.push_front_list(list2);
-
-			for (size_t i = 0; i < list.get_size(); i++)
-				Assert::AreEqual(list.at(i), check_array[i]);
-		}
-		*/
-		/*TEST_METHOD(TestMethod_push_front_list_with_Del_elem_from_list2)
-		{
-			int check_array[6] = { 40, 10, 50, 4, 1, 5 };
-
-			List <int>list;
-			list.push_back(4);
-			list.push_back(1);
-			list.push_back(5);
-
-			List<int> list2;
-			list2.push_back(40);
-			list2.push_back(10);
-			list2.push_back(50);
-
-			list.push_front_list(list2);
-
-			list2.Delete(2);
-
-			for (size_t i = 0; i < list.get_size(); i++)
-				Assert::AreEqual(list.at(i), check_array[i]);
-		}*/
+		
 		//string
 
 
-		TEST_METHOD(TestMethod_size_sting)
+		TEST_METHOD(TestMethod_size_string)
 		{
 			List<string> list2;
 			list2.push_back("pop");
@@ -352,13 +311,13 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_size() == size);
 		}
 
-		TEST_METHOD(TestMethod_size_Empty_sting)
+		TEST_METHOD(TestMethod_size_Empty_string)
 		{
 			List<string> list2;
 			Assert::IsTrue(list2.get_size() == 0);
 		}
 
-		TEST_METHOD(TestMethod_push_back_sting)
+		TEST_METHOD(TestMethod_push_back_string)
 		{
 			List<string> list2;
 			list2.push_front("pop");
@@ -368,7 +327,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_back() == data);
 		}
 
-		TEST_METHOD(TestMethod_push_back_empty_sting)
+		TEST_METHOD(TestMethod_push_back_empty_string)
 		{
 			List<string> list2;
 			list2.push_back("son");
@@ -376,7 +335,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_back() == data);
 		}
 
-		TEST_METHOD(TestMethod_pop_back_sting)
+		TEST_METHOD(TestMethod_pop_back_string)
 		{
 			List <string>list2;
 			list2.push_front("pop");
@@ -388,7 +347,7 @@ namespace UnitTest1
 		}
 
 
-		TEST_METHOD(TestMethod_pop_back_one_sting)
+		TEST_METHOD(TestMethod_pop_back_one_string)
 		{
 			List<string> list2;
 			list2.push_front("pop");
@@ -396,7 +355,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.isEmpty());
 		}
 
-		TEST_METHOD(TestMethod_push_front_sting)
+		TEST_METHOD(TestMethod_push_front_string)
 		{
 			List<string> list2;
 
@@ -407,7 +366,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_front() == data);
 		}
 
-		TEST_METHOD(TestMethod_push_front_empty_sting)
+		TEST_METHOD(TestMethod_push_front_empty_string)
 		{
 			List<string> list2;
 			list2.push_front("nos");
@@ -415,7 +374,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_front() == data);
 		}
 
-		TEST_METHOD(TestMethod_pop_front_sting)
+		TEST_METHOD(TestMethod_pop_front_string)
 		{
 			List<string> list2;
 
@@ -427,7 +386,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_front() == data);
 		}
 
-		TEST_METHOD(TestMethod_at_sting)
+		TEST_METHOD(TestMethod_at_string)
 		{
 			List <string>list2;
 
@@ -438,7 +397,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.at(1) == data);
 		}
 
-		TEST_METHOD(TestMethod_at_front_sting)
+		TEST_METHOD(TestMethod_at_front_string)
 		{
 			List <string>list2;
 
@@ -449,20 +408,20 @@ namespace UnitTest1
 			Assert::IsTrue(list2.at(0) == data);
 		}
 
-		TEST_METHOD(TestMethod_isEmpty_sting)
+		TEST_METHOD(TestMethod_isEmpty_string)
 		{
 			List<string> list2;
 			Assert::IsTrue(list2.isEmpty());
 		}
 
-		TEST_METHOD(TestMethod_isEmpty_one_sting)
+		TEST_METHOD(TestMethod_isEmpty_one_string)
 		{
 			List<string> list2;
 			list2.push_front("nos");
 			Assert::IsFalse(list2.isEmpty());
 		}
 
-		TEST_METHOD(TestMethod_set_sting)
+		TEST_METHOD(TestMethod_set_string)
 		{
 			List<string> list2;
 
@@ -474,7 +433,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.at(1) == data);
 		}
 
-		TEST_METHOD(TestMethod_clear_sting)
+		TEST_METHOD(TestMethod_clear_string)
 		{
 			List<string> list2;
 
@@ -485,7 +444,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.isEmpty());
 		}
 
-		TEST_METHOD(TestMethod_clear_one_sting)
+		TEST_METHOD(TestMethod_clear_one_string)
 		{
 			List<string> list2;
 			list2.push_front("nos");
@@ -494,7 +453,7 @@ namespace UnitTest1
 		}
 
 
-		TEST_METHOD(TestMethod_clear_Empty_sting)
+		TEST_METHOD(TestMethod_clear_Empty_string)
 		{
 			List<string> list2;
 
@@ -510,7 +469,7 @@ namespace UnitTest1
 
 		}
 		
-		TEST_METHOD(TestMethod_Del_sting)
+		TEST_METHOD(TestMethod_Del_string)
 		{
 			string data = "son";
 
@@ -523,7 +482,7 @@ namespace UnitTest1
 			Assert::AreEqual(list2.at(1), data);
 		}
 
-		TEST_METHOD(TestMethod_Del_front_sting)
+		TEST_METHOD(TestMethod_Del_front_string)
 		{
 			string data = "son";
 
@@ -536,7 +495,7 @@ namespace UnitTest1
 			Assert::AreEqual(list2.at(0), data);
 		}
 
-		TEST_METHOD(TestMethod_Del_back_sting)
+		TEST_METHOD(TestMethod_Del_back_string)
 		{
 			string data = "son";
 
@@ -548,7 +507,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.get_back() == data);
 		}
 
-		TEST_METHOD(TestMethod_Del_One_sting)
+		TEST_METHOD(TestMethod_Del_One_string)
 		{
 			List<string> list2;
 
@@ -557,7 +516,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.isEmpty());
 		}
 
-		TEST_METHOD(TestMethod_Del_Empty_sting)
+		TEST_METHOD(TestMethod_Del_Empty_string)
 		{
 			List<string> list2;
 
@@ -574,7 +533,7 @@ namespace UnitTest1
 		}
 
 
-		TEST_METHOD(TestMethod_Insert_sting)
+		TEST_METHOD(TestMethod_Insert_string)
 		{
 			List<string> list2;
 
@@ -586,7 +545,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.at(1) == data);
 		}
 
-		TEST_METHOD(TestMethod_Insert_0_sting)
+		TEST_METHOD(TestMethod_Insert_0_string)
 		{
 			List<string> list2;
 
@@ -598,7 +557,7 @@ namespace UnitTest1
 			Assert::IsTrue(list2.at(0) == data);
 		}
 
-		TEST_METHOD(TestMethod_Insert_to_Empty_sting)
+		TEST_METHOD(TestMethod_Insert_to_Empty_string)
 		{
 			List<string> list2;
 			try
@@ -612,7 +571,7 @@ namespace UnitTest1
 		}
 
 
-		TEST_METHOD(TestMethod_Insert_end_sting)
+		TEST_METHOD(TestMethod_Insert_end_string)
 		{
 			List<string> list2;
 

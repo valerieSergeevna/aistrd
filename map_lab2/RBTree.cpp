@@ -1,4 +1,7 @@
 #include "RBTree.h"
+#include <stdexcept>
+
+
 
 template<typename T>
 RBTree<T>::RBTree()
@@ -17,6 +20,43 @@ void RBTree<T>::add_first(T key, T value)
 	size++;
 }
 
+/*template<typename T>
+T RBTree<T>::get_keys()
+{
+	Iterator &it = create_bft_iterator();
+	for (; it != nullptr; it++)
+		std::cout << it-- << ' ';
+	std::cout << '\n';
+}*/
+
+template<typename T>
+T RBTree<T>::get_value()
+{
+	if (this->root == nullptr)
+	{
+		throw out_of_range("error");
+	}
+	stack<node*> s;  // —оздаем стек
+	s.push(this->root);  // ¬ставл€ем корень в стек
+	/* »звлекаем из стека один за другим все элементы.
+	   ƒл€ каждого извлеченного делаем следующее
+	   1) печатаем его
+	   2) вставл€ем в стек правого! потомка
+		  (¬нимание! стек помен€ет пор€док выполнени€ на противоположный!)
+	   3) вставл€ем в стек левого! потомка */
+	while (s.empty() == false)
+	{
+		// »звлекаем вершину стека и печатаем
+		node *temp = s.top();
+		s.pop();
+		cout << temp->data << " ";
+
+		if (temp->next_right)
+			s.push(temp->next_right); // ¬ставл€ем в стек правого потомка
+		if (temp->next_left)
+			s.push(temp->next_left);  // ¬ставл€ем в стек левого потомка
+	}
+}
 template<typename T>
 void RBTree<T>::reset_list()
 {
@@ -25,14 +65,14 @@ void RBTree<T>::reset_list()
 }
 
 template <typename T>
-typename RBTree<T>::node* RBTree<T>::get_ancle(node *cur) {
-	node *granny = grandparent(cur);
+typename RBTree<T>::node* RBTree<T>::get_uncle(node *cur) {
+	node *granny = get_grandparent(cur);
 	if (granny == nullptr)
 		return nullptr; // No grandparent means no uncle
-	if (cur->parent == granny->left)
-		return granny->right;
+	if (cur->parent == granny->next_left)
+		return granny->next_right;
 	else
-		return granny->left;
+		return granny->next_left;
 }
 
 template <typename T>
@@ -46,43 +86,43 @@ typename RBTree<T>::node* RBTree<T>::get_grandparent(node *cur) {
 template<typename T>
 void RBTree<T>::rotate_right(node *cur)
 {
-	node *pivot = cur->left;
+	node *pivot = cur->next_left;
 
 	pivot->parent = cur->parent; /* при этом, возможно, pivot становитс€ корнем дерева */
 	if (cur->parent != nullptr) {
-		if (cur->parent->left == cur)
-			cur->parent->left = pivot;
+		if (cur->parent->next_left == cur)
+			cur->parent->next_left = pivot;
 		else
-			cur->parent->right = pivot;
+			cur->parent->next_right = pivot;
 	}
 
-	cur->left = pivot->right;
-	if (pivot->right != nullptr)
-		pivot->right->parent = cur;
+	cur->next_left = pivot->next_right;
+	if (pivot->next_right != nullptr)
+		pivot->next_right->parent = cur;
 
 	cur->parent = pivot;
-	pivot->right = cur;
+	pivot->next_right = cur;
 }
 
 template<typename T>
 void  RBTree<T>::rotate_left(node *cur)
 {
-	struct node *pivot = cur->right;
+	struct node *pivot = cur->next_right;
 
 	pivot->parent = cur->parent; /* при этом, возможно, pivot становитс€ корнем дерева */
 	if (cur->parent != nullptr) {
-		if (cur->parent->left == cur)
-			cur->parent->left = pivot;
+		if (cur->parent->next_left == cur)
+			cur->parent->next_left = pivot;
 		else
-			cur->parent->right = pivot;
+			cur->parent->next_right = pivot;
 	}
 
-	cur->right = pivot->left;
-	if (pivot->left != nullptr)
-		pivot->left->parent = cur;
+	cur->next_right = pivot->next_left;
+	if (pivot->next_left != nullptr)
+		pivot->next_left->parent = cur;
 
 	cur->parent = pivot;
-	pivot->left = cur;
+	pivot->next_left = cur;
 }
 
 template<typename T>
@@ -111,13 +151,13 @@ void RBTree<T>::insert_case2(node *cur)
 template<typename T>
 void RBTree<T>::insert_case3(node *cur)
 {
-	node *u = uncle(cur), *granny;
+	node *u = get_uncle(cur), *granny;
 
 	if ((u != nullptr) && (u->color == 1)) {
 		// && (n->parent->color == RED) ¬торое условие провер€етс€ в insert_case2, то есть родитель уже €вл€етс€ красным.
 		cur->parent->color = 0;
 		u->color = 0;
-		granny = grandparent(cur);
+		granny = get_grandparent(cur);
 		granny->color = 1;
 		insert_case1(granny);
 	}
@@ -129,9 +169,9 @@ void RBTree<T>::insert_case3(node *cur)
 template<typename T>
 void RBTree<T>::insert_case4(node *cur)
 {
-	node *granny = grandparent(cur);
+	node *granny = get_grandparent(cur);
 
-	if ((cur == cur->parent->right) && (cur->parent == granny->left)) {
+	if ((cur == cur->parent->next_right) && (cur->parent == granny->next_left)) {
 		rotate_left(cur->parent);
 
 		/*
@@ -144,9 +184,9 @@ void RBTree<T>::insert_case4(node *cur)
 		 *
 		 */
 
-		cur = cur->left;
+		cur = cur->next_left;
 	}
-	else if ((cur == cur->parent->left) && (cur->parent == granny->right)) {
+	else if ((cur == cur->parent->next_left) && (cur->parent == granny->next_right)) {
 		rotate_right(cur->parent);
 
 		/*
@@ -159,7 +199,7 @@ void RBTree<T>::insert_case4(node *cur)
 		 *
 		 */
 
-		cur = cur->right;
+		cur = cur->next_right;
 	}
 	insert_case5(cur);
 }
@@ -167,11 +207,11 @@ void RBTree<T>::insert_case4(node *cur)
 template<typename T>
 void RBTree<T>::insert_case5(node *cur)
 {
-	node *granny = grandparent(cur);
+	node *granny = get_grandparent(cur);
 
 	cur->parent->color = 0;
 	granny->color = 1;
-	if ((cur == cur->parent->left) && (cur->parent == granny->left)) {
+	if ((cur == cur->parent->next_left) && (cur->parent == granny->next_left)) {
 		rotate_right(granny);
 	}
 	else { /* (n == n->parent->right) && (n->parent == g->right) */

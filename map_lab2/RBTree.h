@@ -1,7 +1,50 @@
 #pragma once
 #include <iostream>
+#include "Iterator.h"
 
 using namespace std;
+
+
+template <class item> class stack
+{
+	item *Stack; int size_;
+public:
+	stack(int maxt) : Stack(new item[maxt]), size_(0) {};
+	~stack();
+	bool empty() const { return size_ == 0; }
+	int size() const { return size_; }
+	void push(item & item) { Stack[size_++] = item; }
+	item top() const { return Stack[size_ - 1]; }
+	void pop() { if (size_) --size_; }
+};
+
+
+
+// функция деструктора Стека
+template <class item>
+stack<item>::~stack()
+{
+	free(Stack); // удаляем стек
+}
+
+template <class item> class queue
+{
+	item *Queue; int head, tail, size_, Max;
+public:
+	queue(int maxQ) : head(0), tail(0), Max(maxQ), size_(0), Queue(new item[maxQ + 1]) {}
+	~queue();
+	bool empty() const { return (head % Max) == tail; }
+	int size() const { return size_; }
+	void push(item & item) { Queue[tail++] = item; tail %= Max; ++size_; }
+	item front() const { return Queue[head % Max]; }
+	void pop() { head++; head %= Max; --size_; }
+};
+
+template <class item>
+queue<item>::~queue()
+{
+	free(Queue);
+}
 
 template <typename T>
 class RBTree
@@ -12,11 +55,7 @@ private:
 
 	class node
 	{
-	private:
-		bool color;
-		T key, value;
-		node * next_right, *next_left, *parent;
-		unsigned int height;
+	
 	public:
 		node(T key, T data, node * next1 = nullptr, node * next2 = nullptr) {
 			this->data = data;
@@ -24,11 +63,17 @@ private:
 			this->next_right = next2;
 			this->key = key;
 		};
-
+		bool color;
+		T key, data;
+		node * next_right, *next_left, *parent;
+		unsigned int height;
 
 		~node();
 
 	};
+	
+	node * root;
+	size_t size;
 public:
 	//bool operator> (T value_1, T value_2) { value_1 > value_2 ? true : false; };
 	RBTree();
@@ -41,7 +86,7 @@ public:
 	unsigned int height_();
 	void fixheight();
 	int bfactor();
-	node *get_ancle(node*);
+	node *get_uncle(node*);
 	node* get_grandparent(node *);
 	void rotate_right(node*);
 	void rotate_left(node*);
@@ -59,7 +104,6 @@ public:
 	T get_keys();
 	T get_value();
 
-	node * root;
-	size_t size;
+	
 };
 
