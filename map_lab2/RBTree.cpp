@@ -10,6 +10,30 @@ RBTree<T>::RBTree()
 	size = 0;
 }
 
+template<typename T>
+RBTree<T>::~RBTree()
+{
+	if (root != nullptr)
+	{
+		root->Del();
+		if (root->next_left != nullptr)
+			root->next_left = nullptr;
+		if (root->next_right != nullptr)
+			root->next_right = nullptr;
+		root = nullptr;
+	}
+}
+
+template<typename T>
+void RBTree<T>::Del()
+{
+	if (this != nullptr) {
+		this->next_left->Del();
+		this->next_right->Del();
+		free(this);
+	}
+}
+
 
 template<typename T>
 void RBTree<T>::add_first(T key, T value)
@@ -36,7 +60,7 @@ T RBTree<T>::get_value()
 	{
 		throw out_of_range("error");
 	}
-	stack<node*> s;  // Создаем стек
+	stack<node*> s(this->size);  // Создаем стек
 	s.push(this->root);  // Вставляем корень в стек
 	/* Извлекаем из стека один за другим все элементы.
 	   Для каждого извлеченного делаем следующее

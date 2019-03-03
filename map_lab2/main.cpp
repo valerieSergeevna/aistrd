@@ -1,7 +1,6 @@
-#include "RBTree.cpp"
+#include "RBTree.h"
 #include <conio.h>
 #include <iostream>
-#include "Iterator.h"
 #include <string>
 
 void main()
@@ -15,5 +14,5 @@ void main()
 	List.insert(0,7);
 	List.insert(2,8);
 	List.get_value();
-	return;
+	//return;
 }

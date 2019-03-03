@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Iterator.h"
+
 
 using namespace std;
 
@@ -75,12 +75,9 @@ private:
 	node * root;
 	size_t size;
 public:
-	//bool operator> (T value_1, T value_2) { value_1 > value_2 ? true : false; };
 	RBTree();
-	~RBTree() {
-		clear();
-	};
-	//void Del();
+	~RBTree();
+	void Del();
 	//mode* remove(int);
 	void reset_list();
 	unsigned int height_();
@@ -100,7 +97,7 @@ public:
 	void add_first(T, T);
 	void remove(T);
 	T find(T);
-	void clear();
+
 	T get_keys();
 	T get_value();
 
