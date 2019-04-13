@@ -9,7 +9,7 @@ class List
 public:
 	friend ostream& operator<< (ostream &out, List<T> &list)
 	{
-		//Node *cur;
+
 		auto cur = list.head;
 		while (cur != nullptr)
 		{
@@ -42,27 +42,24 @@ public:
 	void print_to_console(List *list);
 	void Delete(size_t);
 	void insert(T, size_t);
-	void push_front_list(const List&);
 
-	//size_t get_back();
-	//size_t get_front();
+
 
 private:
 	void add_first(T newElem);
 
-//	template <typename T>
+
 	class Node
 	{
 	public:
 		Node(T data, Node * next = nullptr) {
 			this->data = data;
 			this->next = next;
-		//	this->prev = prev;
+
 		}
 
 		T data;
 		Node * next;
-		//Node * prev;
 	};
 
 

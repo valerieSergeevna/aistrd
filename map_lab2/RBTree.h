@@ -57,17 +57,21 @@ private:
 	{
 	
 	public:
-		node(T key, T data, node * next1 = nullptr, node * next2 = nullptr) {
+		node(T key, T data, node * next1 = nullptr, node * next2 = nullptr, node * next3 = nullptr) {
 			this->data = data;
 			this->next_left = next1;
 			this->next_right = next2;
 			this->key = key;
+			this -> height = 0;
+			this->parent = next3;
+			this->color = 1;
+
 		};
 		bool color;
 		T key, data;
 		node * next_right, *next_left, *parent;
 		unsigned int height;
-
+		void Del();
 		~node();
 
 	};
@@ -77,7 +81,7 @@ private:
 public:
 	RBTree();
 	~RBTree();
-	void Del();
+
 	//mode* remove(int);
 	void reset_list();
 	unsigned int height_();
@@ -85,6 +89,7 @@ public:
 	int bfactor();
 	node *get_uncle(node*);
 	node* get_grandparent(node *);
+	node* get_sibling(node *);
 	void rotate_right(node*);
 	void rotate_left(node*);
 	void blance_set_color(node *);
@@ -93,12 +98,24 @@ public:
 	void insert_case3(node *);
 	void insert_case4(node *);
 	void insert_case5(node *);
+
+	void delete_case1(node *);
+	void delete_case2(node *);
+	void delete_case3(node *);
+	void delete_case4(node *);
+	void delete_case5(node *);
+	void delete_case6(node *);
+	void delete_one_child(node *);
+
 	void insert(T, T);
+	void insert_fix(node*);
+	//void add_first(node*);
 	void add_first(T, T);
 	void remove(T);
 	T find(T);
 
 	T get_keys();
+	T get_colors();
 	T get_value();
 
 	

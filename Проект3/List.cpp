@@ -35,7 +35,6 @@ void List<T>::push_back(T newElem)
 	else {
 
 		tail->next = new Node(newElem);
-		//tail->next->prev = tail;
 		tail = tail->next;
 	}
 	size++;
@@ -50,36 +49,14 @@ void List<T>::push_front(T newElem)
 	{
 		auto cur = new Node(newElem, head);
 		head = cur;
-		//head->prev = new Node(newElem, head);
-		//head = head->prev;
+	
 	}
 	size++;
 }
 template<typename T>
 void List<T>::pop_back()
 {
-	/*if (size == 0)
-		return;
-	if (size == 1)
-	{
-		delete tail;
-		head = nullptr;
-		tail = nullptr;
-	}
-	else
-	{Node * cur = head;
-	while (cur->next->next != nullptr) 
-		cur = cur->next;
 	
-	//Node *prev = tail->prev;
-
-	delete tail;
-	
-	
-		cur->next = nullptr;
-		tail = cur;
-	}
-	size--;*/
 	if (size == 0) return;
 
 	if (size == 1) {
@@ -118,7 +95,6 @@ void List<T>::pop_front()
 	{
 		Node *cur = head->next;
 		head->next = nullptr;
-		//cur->prev = nullptr;
 		delete head;
 		head = cur;
 	}
@@ -212,8 +188,7 @@ void List<T>::Delete(size_t index)
 		cur = cur->next;
 		i--;
 	}
-	//if (cur->prev != nullptr)
-		//cur->prev->next = cur->next;
+
 	if (cur->next->next != nullptr)
 	{
 		cur->next = cur->next->next;
@@ -261,16 +236,6 @@ void List<T>::insert(T newElem, size_t index)
 	}
 }
 
-/*template<typename T>
-void List<T>::push_front_list(const List & Sec)
-{
-	Node *cur = Sec.tail;
-	while (cur != nullptr) {
-		push_front(cur->data);
-		cur = cur->prev;
-	}
-	
-}*/
 
 template<typename T>
 T List<T>::get_back()
@@ -297,5 +262,3 @@ void List<T>::add_first(T newElem)
 	tail = head;
 }
 
-//template<typename T>
-//ostream & operator<<(ostream & out, List<T>& list)

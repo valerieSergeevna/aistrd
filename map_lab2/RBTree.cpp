@@ -25,7 +25,7 @@ RBTree<T>::~RBTree()
 }
 
 template<typename T>
-void RBTree<T>::Del()
+void RBTree<T>::node::Del()
 {
 	if (this != nullptr) {
 		this->next_left->Del();
@@ -36,12 +36,177 @@ void RBTree<T>::Del()
 
 
 template<typename T>
-void RBTree<T>::add_first(T key, T value)
+void RBTree<T>::insert(T key, T value)
+{
+	/*node *nw = new node(key, value);
+	if (size == 0)
+	{
+		//add_first(key, value);
+		insert_fix(nw);
+		root = nw;
+		root->parent = nullptr;
+	}
+	else {
+		node *current = root;
+		//поиск места, куда вставить элемент 
+		while (true) {
+			if (key <= current->key)//если меньше или равен, то идем по левому поддереву
+				if (current->next_left == nullptr) {
+					current->next_left = nw;//вставляем элемент
+					//current->next_left->parent = current;
+					current = current->next_left;
+					break;
+				}
+				else
+					current = current->next_left;
+			else if (key > current->key)//если меньше или равен, то идем по правому поддереву
+				if (current->next_right == nullptr) {
+					current->next_right = nw;//вставляем элемент
+					//current->next_right->parent = current;
+					current = current->next_right;
+					break;
+				}
+				else
+					current = current->next_right;
+		}
+		size++;
+		insert_fix(current);
+	}
+	*/
+	node *p, *q;
+	node *t = new node(key, value);
+	p = root;
+	q = nullptr;
+	if (root == nullptr)
+	{
+		root = t;
+		t->parent = nullptr;
+	}
+	else
+	{
+		while (p != nullptr)
+		{
+			q = p;
+			if (p->key < t->key)
+				p = p->next_right;
+			else
+				p = p->next_left;
+		}
+		t->parent = q;
+		if (q->key < t->key)
+			q->next_right = t;
+		else
+			q->next_left = t;
+	}
+	insert_fix(t);
+}
+
+template<typename T>
+void RBTree<T>::insert_fix(node *t)
+{
+	node *u;
+	if (root == t)
+	{
+		t->color = 0;
+		return;
+	}
+	while (t->parent != nullptr && t->parent->color == 1)
+	{
+		node *g = t->parent->parent;
+		if (g->next_left == t->parent)
+		{
+			if (g->next_right != nullptr)
+			{
+				u = g-> next_right;
+				if (u->color == 1)
+				{
+					t->parent->color = 0;
+					u->color = 0;
+					g->color = 1;
+					t = g;
+				}
+			}
+			else
+			{
+				if (t->parent->next_right == t)
+				{
+					t = t->parent;
+					rotate_left(t);
+				}
+				t->parent->color = 0;
+				g->color = 1;
+				rotate_right(g);
+			}
+		}
+		else
+		{
+			if (g->next_left != nullptr)
+			{
+				u = g->next_left;
+				if (u->color == 1)
+				{
+					t->parent->color = 0;
+					u->color = 0;
+					g->color = 1;
+					t = g;
+				}
+			}
+			else
+			{
+				if (t->parent->next_left == t)
+				{
+					t = t->parent;
+					rotate_right(t);
+				}
+				t->parent->color = 0;
+				g->color = 1;
+				rotate_left(g);
+			}
+		}
+		root->color = 0;
+	}
+}
+
+/*template<typename T>
+void RBTree<T>::add_first(node *cur)
 {
 
-	root = new node(key, value);
-	root->color = 0;
+	root = cur;
+	cur->parent = nullptr;
+	cur->color = 0;
 	size++;
+}
+*/
+template<typename T>
+void RBTree<T>::add_first(T key, T val)
+{
+
+	root = new node(key, val);
+	root->parent = nullptr;
+	size++;
+}
+template<typename T>
+T RBTree<T>::find(T key)
+{
+	if (this->root == nullptr)
+	{
+		throw out_of_range("error");
+	}
+	stack<node*> s(this->size);  
+	s.push(this->root);  
+	while (s.empty() == false)
+	{
+	
+		node *temp = s.top();
+		s.pop();
+		if (temp->key == key)
+			return temp->data;
+
+		if (temp->next_right)
+			s.push(temp->next_right); // Вставляем в стек правого потомка
+		if (temp->next_left)
+			s.push(temp->next_left);  // Вставляем в стек левого потомка
+	}
 }
 
 /*template<typename T>
@@ -52,6 +217,35 @@ T RBTree<T>::get_keys()
 		std::cout << it-- << ' ';
 	std::cout << '\n';
 }*/
+
+template<typename T>
+T RBTree<T>::get_colors()
+{
+	if (this->root == nullptr)
+	{
+		throw out_of_range("error");
+	}
+	stack<node*> s(this->size);  // Создаем стек
+	s.push(this->root);  // Вставляем корень в стек
+	/* Извлекаем из стека один за другим все элементы.
+	   Для каждого извлеченного делаем следующее
+	   1) печатаем его
+	   2) вставляем в стек правого! потомка
+		  (Внимание! стек поменяет порядок выполнения на противоположный!)
+	   3) вставляем в стек левого! потомка */
+	while (s.empty() == false)
+	{
+		// Извлекаем вершину стека и печатаем
+		node *temp = s.top();
+		s.pop();
+		cout << temp->color << " ";
+
+		if (temp->next_right)
+			s.push(temp->next_right); // Вставляем в стек правого потомка
+		if (temp->next_left)
+			s.push(temp->next_left);  // Вставляем в стек левого потомка
+	}
+}
 
 template<typename T>
 T RBTree<T>::get_value()
@@ -88,7 +282,7 @@ void RBTree<T>::reset_list()
 	root = nullptr;
 }
 
-template <typename T>
+/*template <typename T>
 typename RBTree<T>::node* RBTree<T>::get_uncle(node *cur) {
 	node *granny = get_grandparent(cur);
 	if (granny == nullptr)
@@ -107,6 +301,15 @@ typename RBTree<T>::node* RBTree<T>::get_grandparent(node *cur) {
 		return nullptr;
 }
 
+template<typename T>
+typename RBTree<T>::node * RBTree<T>::get_sibling(node *current)
+{
+	if (current == current->parent->next_left)
+		return current->parent->next_right;
+	else
+		return current->parent->next_left;
+}
+*/
 template<typename T>
 void RBTree<T>::rotate_right(node *cur)
 {
@@ -148,8 +351,8 @@ void  RBTree<T>::rotate_left(node *cur)
 	cur->parent = pivot;
 	pivot->next_left = cur;
 }
-
-template<typename T>
+//из википедии
+/*template<typename T>
 void RBTree<T>::blance_set_color(node *cur)
 {
 	insert_case1(cur);
@@ -168,7 +371,7 @@ template<typename T>
 void RBTree<T>::insert_case2(node *cur)
 {
 	if (cur->parent->color == 0)
-		return; /* Tree is still valid */
+		return; 
 	else
 		insert_case3(cur);
 }
@@ -198,30 +401,11 @@ void RBTree<T>::insert_case4(node *cur)
 	if ((cur == cur->parent->next_right) && (cur->parent == granny->next_left)) {
 		rotate_left(cur->parent);
 
-		/*
-		 * rotate_left может быть выполнен следующим образом, учитывая что уже есть *g =  grandparent(n)
-		 *
-		 * struct node *saved_p=g->left, *saved_left_n=n->left;
-		 * g->left=n;
-		 * n->left=saved_p;
-		 * saved_p->right=saved_left_n;
-		 *
-		 */
-
 		cur = cur->next_left;
 	}
 	else if ((cur == cur->parent->next_left) && (cur->parent == granny->next_right)) {
 		rotate_right(cur->parent);
 
-		/*
-		 * rotate_right может быть выполнен следующим образом, учитывая что уже есть *g =  grandparent(n)
-		 *
-		 * struct node *saved_p=g->right, *saved_right_n=n->right;
-		 * g->right=n;
-		 * n->right=saved_p;
-		 * saved_p->left=saved_right_n;
-		 *
-		 */
 
 		cur = cur->next_right;
 	}
@@ -238,9 +422,117 @@ void RBTree<T>::insert_case5(node *cur)
 	if ((cur == cur->parent->next_left) && (cur->parent == granny->next_left)) {
 		rotate_right(granny);
 	}
-	else { /* (n == n->parent->right) && (n->parent == g->right) */
+	else { 
 		rotate_left(granny);
 	}
+}
+template<typename T>
+void RBTree<T>::delete_case1(node *current)
+{
+	if (current->parent != nullptr)
+		delete_case2(current);
+}
+template<typename T>
+void RBTree<T>::delete_case2(node *current)
+{
+	node *sibling = get_sibling(current);
+
+	if (sibling->color == 1) {
+		current->parent->color = 1;
+		sibling->color = 0;
+		if (current == current->parent->next_left)
+			rotate_left(current->parent);
+		else
+			rotate_right(current->parent);
+	}
+	delete_case3(current);
+}
+template<typename T>
+void RBTree<T>::delete_case3(node *current)
+{
+	node *sibling = get_sibling(current);
+
+	if ((current->parent->color == 0) &&
+		(sibling->color == 0) &&
+		(sibling->next_left->color == 0) &&
+		(sibling->next_right->color == 0)) {
+		sibling->color = 1;
+		delete_case1(current->parent);
+	}
+	else
+		delete_case4(current);
+}
+template<typename T>
+void RBTree<T>::delete_case4(node *current)
+{
+	node *sibling = get_sibling(current);
+
+	if ((current->parent->color == 1) &&
+		(sibling->color == 0) &&
+		(sibling->next_left->color == 0) &&
+		(sibling->next_right->color == 0)) {
+		sibling->color = 1;
+		current->parent->color = 0;
+	}
+	else
+		delete_case5(current);
+}
+template<typename T>
+void RBTree<T>::delete_case5(node *current)
+{
+	node *sibling = get_sibling(current);
+
+	if (sibling->color == 0) { 
+		if ((current == current->parent->next_left) &&
+			(sibling->next_right->color == 0) &&
+			(sibling->next_left->color == 1)) {
+			sibling->color = 1;
+			sibling->next_left->color = 0;
+			rotate_right(sibling);
+		}
+		else if ((current == current->parent->next_right) &&
+			(sibling->next_left->color == 0) &&
+			(sibling->next_right->color == 1)) {
+			sibling->color = 1;
+			sibling->next_right->color = 0;
+			rotate_left(sibling);
+		}
+	}
+	delete_case6(current);
+}
+template<typename T>
+void RBTree<T>::delete_case6(node *current)
+{
+	node *sibling = get_sibling(current);
+
+	sibling->color = current->parent->color;
+	current->parent->color = 0;
+
+	if (current == current->parent->left) {
+		sibling->right->color = 0;
+		rotate_left(current->parent);
+	}
+	else {
+		sibling->left->color = 0;
+		rotate_right(current->parent);
+	}
+}
+template<typename T>
+void RBTree<T>::delete_one_child(node *current)
+{
+	
+	 node *child = current->next_right == nullptr ? current->next_left : current->next_right;
+
+	//replace_node(current, child);//////////////тут непонятно
+	 current->data = child->data;
+	 current->key = child->key;
+	if (current->color == 0) {
+		if (child->color == 1)
+			child->color = 0;
+		else
+			delete_case1(child);
+	}
+	free(current);
 }
 template <typename T>
 void RBTree<T>::insert(T key, T value) {
@@ -255,7 +547,8 @@ void RBTree<T>::insert(T key, T value) {
 			if (key <= current->key)//если меньше или равен, то идем по левому поддереву
 				if (current->next_left == nullptr) {
 					current->next_left = new node(key, value);//вставляем элемент
-
+					current->next_left->parent = current;
+					current = current->next_left;
 					break;
 				}
 				else
@@ -263,7 +556,8 @@ void RBTree<T>::insert(T key, T value) {
 			else if (key > current->key)//если меньше или равен, то идем по правому поддереву
 				if (current->next_right == nullptr) {
 					current->next_right = new node(key, value);//вставляем элемент
-
+					current->next_right->parent = current;
+					current =current->next_right ;
 					break;
 				}
 				else
@@ -272,7 +566,7 @@ void RBTree<T>::insert(T key, T value) {
 		size++;
 		blance_set_color(current);
 	}
-
-
+	
+	
 }
-
+*/

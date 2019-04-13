@@ -1,4 +1,4 @@
-#include "RBTree.h"
+#include "RBTree.cpp"
 #include <conio.h>
 #include <iostream>
 #include <string>
@@ -13,6 +13,7 @@ void main()
 	List.insert(9,4);
 	List.insert(0,7);
 	List.insert(2,8);
-	List.get_value();
+	List.get_colors();
+	_getch();
 	//return;
 }
